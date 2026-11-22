@@ -1,0 +1,123 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="robots" content="noindex, nofollow">
+  <meta name="referrer" content="no-referrer">
+  <meta name="theme-color" content="#f6e9d2">
+  <title>Lock-In</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Crect width='16' height='16' rx='3' fill='%23e8735f'/%3E%3Crect x='5' y='7' width='6' height='5' fill='%23fff8ec'/%3E%3Crect x='6' y='4' width='4' height='4' fill='none' stroke='%23fff8ec' stroke-width='1.4'/%3E%3C/svg%3E">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@600;700;800&family=Pixelify+Sans:wght@600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <div class="page">
+    <header class="top">
+      <div class="logo" aria-hidden="true">
+        <svg viewBox="0 0 24 24" width="26" height="26"><rect x="5" y="10.5" width="14" height="10" rx="2.5" fill="none" stroke="currentColor" stroke-width="2.4"/><path d="M8.5 10.5V8a3.5 3.5 0 0 1 7 0v2.5" fill="none" stroke="currentColor" stroke-width="2.4"/><rect x="11" y="14" width="2" height="3.2" rx="1" fill="currentColor"/></svg>
+      </div>
+      <div class="top-text">
+        <h1 class="pixel">LOCK-IN</h1>
+        <p class="sub" id="subtitle">Loading…</p>
+      </div>
+      <div class="menu-wrap">
+        <button type="button" class="source-pill" id="sourcePill" aria-haspopup="true" aria-expanded="false">…</button>
+        <div class="menu" id="menu" hidden>
+          <button type="button" data-action="refresh">Refresh</button>
+          <button type="button" data-action="copy-setup-link" data-live-only>Copy setup link</button>
+          <button type="button" data-action="change-token" data-live-only>Change token</button>
+          <button type="button" data-action="forget-token" data-live-only>Forget token</button>
+        </div>
+      </div>
+    </header>
+
+    <p class="status" id="status" role="status" hidden></p>
+
+    <main id="app" hidden>
+      <section class="card char-card" aria-label="Character">
+        <div class="avatar">
+          <div class="sprite-box"><div class="sprite-shadow"></div><div class="sprite" id="sprite"></div></div>
+          <span class="mood" id="mood"></span>
+        </div>
+        <div class="name-row">
+          <h2 class="pixel name" id="charName"></h2>
+          <span class="pixel lv" id="charLevel"></span>
+        </div>
+        <div class="stats">
+          <div class="bar-head">
+            <span class="bar-label"><svg class="ico" viewBox="0 0 16 16" aria-hidden="true"><path d="M8 14 2.2 8.3A3.4 3.4 0 0 1 8 3.6a3.4 3.4 0 0 1 5.8 4.7Z" fill="#e8735f" stroke="#4a3226" stroke-width="1.3"/></svg>HP</span>
+            <span id="hpValue"></span>
+          </div>
+          <div class="hp-bar" id="hpBar" role="meter" aria-label="HP" aria-valuemin="0" aria-valuemax="100"></div>
+          <p class="hint" id="hpLine"></p>
+          <div class="bar-head">
+            <span class="bar-label"><svg class="ico" viewBox="0 0 16 16" aria-hidden="true"><path d="m8 1.8 1.9 3.9 4.3.6-3.1 3 .7 4.2L8 11.5l-3.8 2 .7-4.2-3.1-3 4.3-.6Z" fill="#f4cc4c" stroke="#4a3226" stroke-width="1.2" stroke-linejoin="round"/></svg>XP</span>
+            <span id="xpValue"></span>
+          </div>
+          <div class="xp-bar" role="meter" aria-label="XP toward next level" id="xpBar"><div class="xp-fill" id="xpFill"></div></div>
+        </div>
+        <div class="skills" id="skills"></div>
+      </section>
+
+      <div class="quest-row">
+        <section class="card quest-card" aria-labelledby="questTitle">
+          <div class="card-head">
+            <h2 class="pixel card-title" id="questTitle">Quest log · last 7 days</h2>
+            <ul class="legend" aria-label="Legend">
+              <li><i class="sw green"></i>Green</li>
+              <li><i class="sw yellow"></i>Yellow</li>
+              <li><i class="sw red"></i>Red</li>
+              <li><i class="sw missing"></i>No data</li>
+              <li><i class="sw pending"></i>Pending</li>
+            </ul>
+          </div>
+          <div class="scroll-x" id="questScroll"><div class="grid quest-grid" id="questGrid"></div></div>
+          <p class="hint foot">Tap any square for details. Points = base (green 10, yellow 5) × streak bonus (+10% per day, max ×2). Gray days earn nothing and never break a streak.</p>
+        </section>
+
+        <aside class="detail" id="detail" aria-live="polite"></aside>
+      </div>
+
+      <section class="card events-card" aria-labelledby="eventsTitle">
+        <div class="card-head">
+          <h2 class="pixel card-title" id="eventsTitle">Events · this week</h2>
+          <p class="hint">From Google Calendar. Tracked only, never scored. Hours · count</p>
+        </div>
+        <div class="scroll-x" id="eventsScroll"><div class="grid events-grid" id="eventsGrid"></div></div>
+      </section>
+
+      <section class="shop" aria-label="Shop, locked">
+        <div class="shop-lock" aria-hidden="true">
+          <svg viewBox="0 0 24 24" width="26" height="26"><rect x="5" y="10.5" width="14" height="10" rx="2.5" fill="none" stroke="currentColor" stroke-width="2.2"/><path d="M8.5 10.5V8a3.5 3.5 0 0 1 7 0v2.5" fill="none" stroke="currentColor" stroke-width="2.2"/></svg>
+        </div>
+        <div class="shop-text">
+          <h2 class="pixel">Shop · unlocks in v2</h2>
+          <p>Spend XP on real-life rewards. Spending is its own ledger, so earned XP never changes.</p>
+        </div>
+        <div class="shop-slots" aria-hidden="true"><i></i><i></i><i></i></div>
+      </section>
+    </main>
+  </div>
+
+  <dialog class="token-dialog" id="tokenDialog">
+    <form method="dialog" id="tokenForm">
+      <h2 class="pixel">Read token</h2>
+      <p>Paste the dashboard's <b>READ</b> token. It is saved only in this browser (localStorage) and sent only to the Lock-In API.</p>
+      <p class="token-error" id="tokenError" hidden></p>
+      <input type="password" id="tokenInput" autocomplete="off" autocapitalize="off" spellcheck="false" placeholder="READ token" required>
+      <div class="dialog-actions">
+        <button type="button" class="btn ghost" id="tokenCancel">Cancel</button>
+        <button type="submit" class="btn">Save</button>
+      </div>
+    </form>
+  </dialog>
+
+  <script src="js/format.js"></script>
+  <script src="js/sprite.js"></script>
+  <script src="js/render.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>

@@ -1,0 +1,607 @@
+{
+  "version": 1,
+  "generated_at": "2026-11-22T08:31:00-05:00",
+  "today": "2026-11-22",
+  "dates": [
+    "2026-11-16",
+    "2026-11-17",
+    "2026-11-18",
+    "2026-11-19",
+    "2026-11-20",
+    "2026-11-21",
+    "2026-11-22"
+  ],
+  "character": {
+    "name": "Nathan",
+    "level": 4,
+    "xp": 984,
+    "level_xp": 900,
+    "next_level_xp": 1600,
+    "xp_to_next": 616,
+    "hp": 69,
+    "hp_max": 100,
+    "hp_counts": {
+      "green": 13,
+      "yellow": 7,
+      "red": 4
+    },
+    "mood": {
+      "key": "okay",
+      "label": "Doing okay"
+    },
+    "skills": [
+      {
+        "key": "STR",
+        "label": "Strength",
+        "habits": [
+          "exercise"
+        ],
+        "xp": 188,
+        "week_xp": 47
+      },
+      {
+        "key": "VIT",
+        "label": "Vitality",
+        "habits": [
+          "sleep"
+        ],
+        "xp": 281,
+        "week_xp": 66
+      },
+      {
+        "key": "FOC",
+        "label": "Focus",
+        "habits": [
+          "phone"
+        ],
+        "xp": 247,
+        "week_xp": 52
+      },
+      {
+        "key": "DIS",
+        "label": "Discipline",
+        "habits": [
+          "laptop"
+        ],
+        "xp": 268,
+        "week_xp": 51
+      }
+    ]
+  },
+  "habits": [
+    {
+      "key": "exercise",
+      "label": "Exercise",
+      "skill": "STR",
+      "unit": "min",
+      "streak": 3,
+      "week_points": 47,
+      "rule": "Green: 45+ min of exercise. Yellow: 20 to 44 min. Red: under 20 min.",
+      "days": [
+        {
+          "date": "2026-11-16",
+          "status": "green",
+          "value": 52,
+          "display": "52 min",
+          "points": 11,
+          "streak": 1,
+          "estimated": false,
+          "detail": {
+            "workouts": 1
+          }
+        },
+        {
+          "date": "2026-11-17",
+          "status": "yellow",
+          "value": 20,
+          "display": "20 min",
+          "points": 6,
+          "streak": 2,
+          "estimated": false,
+          "detail": {
+            "workouts": 1
+          }
+        },
+        {
+          "date": "2026-11-18",
+          "status": "red",
+          "value": 0,
+          "display": "None",
+          "points": 0,
+          "streak": 0,
+          "estimated": false,
+          "detail": {
+            "workouts": 0
+          }
+        },
+        {
+          "date": "2026-11-19",
+          "status": "green",
+          "value": 48,
+          "display": "48 min",
+          "points": 11,
+          "streak": 1,
+          "estimated": false,
+          "detail": {
+            "workouts": 1
+          }
+        },
+        {
+          "date": "2026-11-20",
+          "status": "green",
+          "value": 60,
+          "display": "60 min",
+          "points": 12,
+          "streak": 2,
+          "estimated": false,
+          "detail": {
+            "workouts": 1
+          }
+        },
+        {
+          "date": "2026-11-21",
+          "status": "yellow",
+          "value": 30,
+          "display": "30 min",
+          "points": 7,
+          "streak": 3,
+          "estimated": false,
+          "detail": {
+            "workouts": 1
+          }
+        },
+        {
+          "date": "2026-11-22",
+          "status": "pending",
+          "value": null,
+          "display": "",
+          "points": 0,
+          "streak": 3,
+          "estimated": false,
+          "detail": {
+            "workouts": 0
+          }
+        }
+      ]
+    },
+    {
+      "key": "sleep",
+      "label": "Sleep",
+      "skill": "VIT",
+      "unit": "h",
+      "streak": 3,
+      "week_points": 66,
+      "rule": "Green: over 7 h and asleep before midnight. Red: under 6 h or asleep after 1 am.",
+      "days": [
+        {
+          "date": "2026-11-16",
+          "status": "green",
+          "value": 7.4,
+          "display": "7.4 h",
+          "points": 13,
+          "streak": 3,
+          "estimated": false,
+          "detail": {
+            "asleep_min": 444,
+            "onset": "23:30",
+            "flag": null
+          }
+        },
+        {
+          "date": "2026-11-17",
+          "status": "green",
+          "value": 7.2,
+          "display": "7.2 h",
+          "points": 14,
+          "streak": 4,
+          "estimated": false,
+          "detail": {
+            "asleep_min": 432,
+            "onset": "23:45",
+            "flag": null
+          }
+        },
+        {
+          "date": "2026-11-18",
+          "status": "yellow",
+          "value": 6.6,
+          "display": "6.6 h",
+          "points": 8,
+          "streak": 5,
+          "estimated": false,
+          "detail": {
+            "asleep_min": 396,
+            "onset": "00:20",
+            "flag": null
+          }
+        },
+        {
+          "date": "2026-11-19",
+          "status": "red",
+          "value": 5.7,
+          "display": "5.7 h",
+          "points": 0,
+          "streak": 0,
+          "estimated": false,
+          "detail": {
+            "asleep_min": 342,
+            "onset": "01:10",
+            "flag": null
+          }
+        },
+        {
+          "date": "2026-11-20",
+          "status": "yellow",
+          "value": 6.8,
+          "display": "6.8 h",
+          "points": 6,
+          "streak": 1,
+          "estimated": false,
+          "detail": {
+            "asleep_min": 408,
+            "onset": "00:30",
+            "flag": null
+          }
+        },
+        {
+          "date": "2026-11-21",
+          "status": "green",
+          "value": 7.6,
+          "display": "7.6 h",
+          "points": 12,
+          "streak": 2,
+          "estimated": false,
+          "detail": {
+            "asleep_min": 456,
+            "onset": "23:10",
+            "flag": null
+          }
+        },
+        {
+          "date": "2026-11-22",
+          "status": "green",
+          "value": 7.3,
+          "display": "7.3 h",
+          "points": 13,
+          "streak": 3,
+          "estimated": false,
+          "detail": {
+            "asleep_min": 438,
+            "onset": "23:40",
+            "flag": null
+          }
+        }
+      ]
+    },
+    {
+      "key": "phone",
+      "label": "Phone",
+      "skill": "FOC",
+      "unit": "min",
+      "streak": 4,
+      "week_points": 52,
+      "rule": "Green: 60 min or less in tracked apps. Red: over 90 min.",
+      "days": [
+        {
+          "date": "2026-11-16",
+          "status": "yellow",
+          "value": 72,
+          "display": "72 min",
+          "points": 8,
+          "streak": 5,
+          "estimated": false,
+          "detail": {}
+        },
+        {
+          "date": "2026-11-17",
+          "status": "red",
+          "value": 95,
+          "display": "95 min",
+          "points": 0,
+          "streak": 0,
+          "estimated": false,
+          "detail": {}
+        },
+        {
+          "date": "2026-11-18",
+          "status": "green",
+          "value": 40,
+          "display": "40 min",
+          "points": 11,
+          "streak": 1,
+          "estimated": false,
+          "detail": {}
+        },
+        {
+          "date": "2026-11-19",
+          "status": "green",
+          "value": 55,
+          "display": "55 min",
+          "points": 12,
+          "streak": 2,
+          "estimated": false,
+          "detail": {}
+        },
+        {
+          "date": "2026-11-20",
+          "status": "yellow",
+          "value": 80,
+          "display": "~80 min",
+          "points": 7,
+          "streak": 3,
+          "estimated": true,
+          "detail": {}
+        },
+        {
+          "date": "2026-11-21",
+          "status": "green",
+          "value": 48,
+          "display": "48 min",
+          "points": 14,
+          "streak": 4,
+          "estimated": false,
+          "detail": {}
+        },
+        {
+          "date": "2026-11-22",
+          "status": "pending",
+          "value": 34,
+          "display": "34 min",
+          "points": 0,
+          "streak": 4,
+          "estimated": false,
+          "detail": {}
+        }
+      ]
+    },
+    {
+      "key": "laptop",
+      "label": "Laptop",
+      "skill": "DIS",
+      "unit": "min",
+      "streak": 1,
+      "week_points": 51,
+      "rule": "Green: 60 min or less on banned sites. Red: over 90 min.",
+      "days": [
+        {
+          "date": "2026-11-16",
+          "status": "missing",
+          "value": null,
+          "display": "",
+          "points": 0,
+          "streak": 4,
+          "estimated": false,
+          "detail": {}
+        },
+        {
+          "date": "2026-11-17",
+          "status": "green",
+          "value": 45,
+          "display": "45 min",
+          "points": 15,
+          "streak": 5,
+          "estimated": false,
+          "detail": {}
+        },
+        {
+          "date": "2026-11-18",
+          "status": "green",
+          "value": 20,
+          "display": "20 min",
+          "points": 16,
+          "streak": 6,
+          "estimated": false,
+          "detail": {}
+        },
+        {
+          "date": "2026-11-19",
+          "status": "yellow",
+          "value": 70,
+          "display": "70 min",
+          "points": 9,
+          "streak": 7,
+          "estimated": false,
+          "detail": {}
+        },
+        {
+          "date": "2026-11-20",
+          "status": "red",
+          "value": 110,
+          "display": "110 min",
+          "points": 0,
+          "streak": 0,
+          "estimated": false,
+          "detail": {}
+        },
+        {
+          "date": "2026-11-21",
+          "status": "green",
+          "value": 35,
+          "display": "35 min",
+          "points": 11,
+          "streak": 1,
+          "estimated": false,
+          "detail": {}
+        },
+        {
+          "date": "2026-11-22",
+          "status": "pending",
+          "value": null,
+          "display": "",
+          "points": 0,
+          "streak": 1,
+          "estimated": false,
+          "detail": {}
+        }
+      ]
+    }
+  ],
+  "events": {
+    "categories": [
+      {
+        "key": "classes",
+        "label": "Classes"
+      },
+      {
+        "key": "socials",
+        "label": "Socials"
+      },
+      {
+        "key": "meetings",
+        "label": "Meetings"
+      },
+      {
+        "key": "other",
+        "label": "Other"
+      }
+    ],
+    "days": [
+      {
+        "date": "2026-11-16",
+        "busy_hours": 5,
+        "classes": {
+          "hours": 3.5,
+          "count": 2
+        },
+        "socials": {
+          "hours": 0,
+          "count": 0
+        },
+        "meetings": {
+          "hours": 1,
+          "count": 1
+        },
+        "other": {
+          "hours": 0.5,
+          "count": 1
+        }
+      },
+      {
+        "date": "2026-11-17",
+        "busy_hours": 5.5,
+        "classes": {
+          "hours": 3,
+          "count": 2
+        },
+        "socials": {
+          "hours": 1,
+          "count": 1
+        },
+        "meetings": {
+          "hours": 1.5,
+          "count": 2
+        },
+        "other": {
+          "hours": 0,
+          "count": 0
+        }
+      },
+      {
+        "date": "2026-11-18",
+        "busy_hours": 5,
+        "classes": {
+          "hours": 3.5,
+          "count": 2
+        },
+        "socials": {
+          "hours": 0,
+          "count": 0
+        },
+        "meetings": {
+          "hours": 0.5,
+          "count": 1
+        },
+        "other": {
+          "hours": 1,
+          "count": 1
+        }
+      },
+      {
+        "date": "2026-11-19",
+        "busy_hours": 6,
+        "classes": {
+          "hours": 3,
+          "count": 2
+        },
+        "socials": {
+          "hours": 2,
+          "count": 1
+        },
+        "meetings": {
+          "hours": 1,
+          "count": 1
+        },
+        "other": {
+          "hours": 0,
+          "count": 0
+        }
+      },
+      {
+        "date": "2026-11-20",
+        "busy_hours": 5,
+        "classes": {
+          "hours": 1.5,
+          "count": 1
+        },
+        "socials": {
+          "hours": 3,
+          "count": 1
+        },
+        "meetings": {
+          "hours": 0,
+          "count": 0
+        },
+        "other": {
+          "hours": 0.5,
+          "count": 1
+        }
+      },
+      {
+        "date": "2026-11-21",
+        "busy_hours": 5,
+        "classes": {
+          "hours": 0,
+          "count": 0
+        },
+        "socials": {
+          "hours": 4,
+          "count": 2
+        },
+        "meetings": {
+          "hours": 0,
+          "count": 0
+        },
+        "other": {
+          "hours": 1,
+          "count": 1
+        }
+      },
+      {
+        "date": "2026-11-22",
+        "busy_hours": 2,
+        "classes": {
+          "hours": 0,
+          "count": 0
+        },
+        "socials": {
+          "hours": 2,
+          "count": 1
+        },
+        "meetings": {
+          "hours": 0,
+          "count": 0
+        },
+        "other": {
+          "hours": 0,
+          "count": 0
+        }
+      }
+    ]
+  },
+  "sync": {
+    "last_health_at": "2026-11-22T07:58:12-05:00",
+    "last_phone_at": "2026-11-22T08:12:40-05:00",
+    "last_laptop_at": "2026-11-22T00:15:31-05:00",
+    "last_calendar_at": "2026-11-22T00:31:04-05:00"
+  }
+}
