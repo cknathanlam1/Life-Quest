@@ -71,7 +71,7 @@ because the page holds no data and no token.
 Tap a square for yesterday or today (only those two; checked against both the data and the device clock), then **Edit**: minutes for exercise, phone and laptop; hours,
 minutes and "fell asleep at" for sleep (a time after noon counts as the evening before). **Mark as
 missing** grays the day out; **Undo edit** removes the edit so the sensor value applies again.
-Edited squares show a pencil and "Edited by hand".
+Edited squares for today and yesterday show a pencil; every edited day says "Edited by hand" in the detail panel.
 
 Saving sends `POST <API_URL>` with a `text/plain` JSON body (`source: "manual"`, see the main README),
 which avoids a CORS preflight. Writes need the **INGEST** token, not the READ token: the page asks

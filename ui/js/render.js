@@ -176,7 +176,7 @@
     return `${habit.label}, ${fmt.longDay(day.date)}: ${STATUS_LABEL[day.status] || day.status}${value}${pts}${edited}`;
   }
 
-  function habitCell(habit, day, onSelect) {
+  function habitCell(habit, day, onSelect, editable) {
     const status = STATUS_LABEL[day.status] ? day.status : 'missing';
     const cell = el('button', `cell ${status}`);
     cell.type = 'button';
@@ -190,7 +190,8 @@
       cell.appendChild(el('span', '', day.display || '—'));
     }
     if (FINAL.includes(status)) cell.appendChild(el('span', 'pts', `+${day.points}`));
-    if (day.edited) cell.appendChild(iconEl('span', 'edited-mark', 'pencil'));
+    // The pencil marks a hand edit you can still change (today/yesterday); older edits only say so in the detail panel.
+    if (day.edited && editable) cell.appendChild(iconEl('span', 'edited-mark', 'pencil'));
     cell.addEventListener('click', () => onSelect(habit.key, day.date));
     return cell;
   }
@@ -203,7 +204,7 @@
       const byDate = new Map(habit.days.map((d) => [d.date, d]));
       state.dates.forEach((date) => {
         const day = byDate.get(date) || { date, status: 'missing', display: '', points: 0, streak: 0, detail: {} };
-        nodes.push(habitCell(habit, day, onSelect));
+        nodes.push(habitCell(habit, day, onSelect, Boolean(LockIn.edit && LockIn.edit.isEditable(state, date))));
       });
     });
     $('questGrid').replaceChildren(...nodes);
