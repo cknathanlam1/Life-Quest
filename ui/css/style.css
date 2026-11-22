@@ -272,6 +272,9 @@ h1, h2, p { margin: 0; }
 .ev.empty { background: transparent; }
 .busy { text-align: center; font-family: var(--pixel); font-size: 17px; }
 .busy-label { font-weight: 800; }
+.ev-points { color: #3f7a32; }
+.ev-points.pending { color: var(--ink-soft); }
+.skill-cal { color: var(--ink-soft); font-size: 12px; font-weight: 700; margin-top: 2px; }
 
 /* ---------- Shop ---------- */
 .shop {

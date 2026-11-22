@@ -60,7 +60,7 @@
     $('charLevel').textContent = `Lv ${ch.level}`;
     renderHp(ch);
     renderXp(ch);
-    renderSkills(ch.skills || []);
+    renderSkills(ch.skills || [], weekCalendarXp(state));
   }
 
   function renderHp(ch) {
@@ -106,7 +106,19 @@
     bar.setAttribute('aria-valuemax', 100);
   }
 
-  function renderSkills(skills) {
+  /** Calendar XP earned this week per skill, from events.days[].<category>.points (0 if absent). */
+  function weekCalendarXp(state) {
+    const events = state.events || { categories: [], days: [] };
+    const totals = {};
+    events.categories.forEach((cat) => {
+      if (!cat.skill) return;
+      const pts = (events.days || []).reduce((sum, d) => sum + (((d[cat.key] || {}).points) || 0), 0);
+      totals[cat.skill] = (totals[cat.skill] || 0) + pts;
+    });
+    return totals;
+  }
+
+  function renderSkills(skills, calendarWeek) {
     const tiles = skills.map((s) => {
       const tile = el('div', 'skill');
       const top = el('div', 'skill-top');
@@ -117,6 +129,8 @@
       tile.appendChild(top);
       tile.appendChild(el('div', 'skill-xp', s.xp));
       tile.appendChild(el('div', 'skill-sub', `${s.label} · +${s.week_xp} this week`));
+      const fromCalendar = (calendarWeek || {})[s.key] || 0;
+      if (fromCalendar > 0) tile.appendChild(el('div', 'skill-cal', `incl. +${fromCalendar} from calendar`));
       return tile;
     });
     $('skills').replaceChildren(...tiles);
@@ -287,11 +301,15 @@
   function renderEvents(state) {
     const events = state.events || { categories: [], days: [] };
     const byDate = new Map((events.days || []).map((d) => [d.date, d]));
+    const scored = events.categories.some((c) => c.skill);
     const nodes = columnHeads(state);
     events.categories.forEach((cat) => {
       const head = el('div', 'row-head');
       head.appendChild(el('span', `cat-dot ${cat.key}`));
-      head.appendChild(el('span', 'habit-name', cat.label));
+      const text = el('div', 'row-text');
+      text.appendChild(el('div', 'habit-name', cat.label));
+      if (cat.skill) text.appendChild(el('div', 'habit-meta', `+${fmt.num(cat.points_per_hour || 1)}/h → ${cat.skill}`));
+      head.appendChild(text);
       nodes.push(head);
       state.dates.forEach((date) => {
         const entry = (byDate.get(date) || {})[cat.key] || { hours: 0, count: 0 };
@@ -305,7 +323,23 @@
       const day = byDate.get(date);
       nodes.push(el('div', 'busy', day ? `${fmt.num(day.busy_hours)}h` : '—'));
     });
+    if (scored) nodes.push(...pointsRow(state, byDate));
     $('eventsGrid').replaceChildren(...nodes);
+    $('eventsHint').textContent = scored
+      ? 'From Google Calendar. Each hour earns points for its skill once the day is over. Hours · count'
+      : 'From Google Calendar. Tracked only, never scored. Hours · count';
+  }
+
+  /** "XP" row: calendar points per day; today shows … until it is over. */
+  function pointsRow(state, byDate) {
+    const nodes = [el('div', 'row-head busy-label', 'Calendar XP')];
+    state.dates.forEach((date) => {
+      const day = byDate.get(date);
+      const pending = date === state.today;
+      const text = pending ? '…' : `+${day && typeof day.points === 'number' ? day.points : 0}`;
+      nodes.push(el('div', `busy ev-points${pending ? ' pending' : ''}`, text));
+    });
+    return nodes;
   }
 
   /* ---------- Since last visit ---------- */

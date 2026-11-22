@@ -4,13 +4,33 @@
 (function (LockIn) {
   'use strict';
 
-  const EDITABLE_DAYS = 2; // yesterday and today
   const MAX_MINUTES = 1440;
 
   const el = (...args) => LockIn.render.el(...args);
 
+  function isoDay(d) {
+    return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
+  }
+
+  /** [today, yesterday] for a day "YYYY-MM-DD" (local calendar math, DST-safe). */
+  function todayAndYesterday(todayIso) {
+    const d = LockIn.fmt.parseDay(todayIso);
+    const y = new Date(d.getFullYear(), d.getMonth(), d.getDate() - 1);
+    return [todayIso, isoDay(y)];
+  }
+
+  /**
+   * Only today and yesterday can be edited, by both the data's "today" and this device's clock,
+   * so a page left open past midnight cannot edit a day that is now two days old.
+   */
   function isEditable(state, date) {
-    return state.dates.slice(-EDITABLE_DAYS).includes(date);
+    const byData = todayAndYesterday(state.today).includes(date);
+    if (LockIn.app.source === 'mock') return byData; // sample data has a fixed date
+    return byData && withinClockWindow(date);
+  }
+
+  function withinClockWindow(date) {
+    return todayAndYesterday(isoDay(new Date())).includes(date);
   }
 
   /* ---------- Request ---------- */
@@ -64,6 +84,10 @@
   /* ---------- Saving ---------- */
   async function save(payload, ui) {
     const app = LockIn.app;
+    if (app.source !== 'mock' && !withinClockWindow(payload.date)) {
+      ui.message('Only today and yesterday can be edited. Refresh the page.', true);
+      return;
+    }
     if (app.source === 'mock') {
       ui.message('Sample data: edits are not sent anywhere.', false);
       return;

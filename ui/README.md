@@ -68,7 +68,7 @@ because the page holds no data and no token.
 
 ## Editing yesterday and today
 
-Tap a square for yesterday or today, then **Edit**: minutes for exercise, phone and laptop; hours,
+Tap a square for yesterday or today (only those two; checked against both the data and the device clock), then **Edit**: minutes for exercise, phone and laptop; hours,
 minutes and "fell asleep at" for sleep (a time after noon counts as the evening before). **Mark as
 missing** grays the day out; **Undo edit** removes the edit so the sensor value applies again.
 Edited squares show a pencil and "Edited by hand".
@@ -95,3 +95,7 @@ save it on a shared device, and it is never part of the setup link.
   stop under `prefers-reduced-motion`. `character.mood.key` picks the face:
   thriving (smile), okay, struggling (frown + sweat), drained (pale, tired), unknown (faded).
 - Times show in the viewer's time zone.
+- **Calendar XP:** when the API sends calendar scoring (`events.categories[].skill`, `events.days[].points`),
+  the Events card labels each category with its skill (`+1/h → DIS`), adds a **Calendar XP** row
+  (today shows `…` until the day is over), and skill tiles say how much of this week came from the
+  calendar. Without those fields the card stays "Tracked only, never scored".
