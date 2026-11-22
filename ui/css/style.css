@@ -1,4 +1,4 @@
-/* Life Quest dashboard. Mobile first; wider layouts from 720px and 1000px. */
+/* Lock-In dashboard. Mobile first; wider layouts from 720px and 1000px. */
 :root {
   --bg: #f6e9d2;
   --dot: #ead6b4;
@@ -87,7 +87,14 @@ h1, h2, p { margin: 0; }
 .status {
   background: var(--card); border: 3px solid var(--ink); border-radius: 14px; padding: 12px 14px; margin-bottom: 14px;
 }
+.status { display: flex; align-items: flex-start; gap: 10px; }
+.status[hidden] { display: none; }
+.status > span { flex: 1; min-width: 0; padding-top: 3px; }
 .status.error { background: #fde3dc; }
+.status-close, .reward-close {
+  flex: none; width: 32px; height: 32px; border: 2.5px solid var(--ink); border-radius: 8px; background: var(--card);
+  font-size: 20px; line-height: 1; cursor: pointer; color: var(--ink);
+}
 
 /* ---------- Cards ---------- */
 .card {
@@ -312,10 +319,6 @@ h1, h2, p { margin: 0; }
 .reward.level-up .reward-star { color: var(--ink); }
 .reward-text { flex: 1; min-width: 0; font-size: 14px; }
 .reward-title { font-size: 18px; }
-.reward-close {
-  flex: none; width: 32px; height: 32px; border: 2.5px solid var(--ink); border-radius: 8px; background: var(--card);
-  font-size: 20px; line-height: 1; cursor: pointer;
-}
 .sprite-box.celebrate::before, .sprite-box.celebrate::after {
   content: "✦"; position: absolute; z-index: 1; color: #fff7c2; font-size: 22px;
   text-shadow: 0 0 2px var(--ink); animation: sparkle 1.3s ease-out 2 both;
@@ -330,11 +333,13 @@ h1, h2, p { margin: 0; }
 
 /* ---------- Manual edits ---------- */
 .cell { position: relative; }
-.edited-mark {
-  position: absolute; top: -7px; right: -7px; width: 20px; height: 20px; border-radius: 50%;
+.edit-mark {
+  position: absolute; top: -8px; right: -8px; width: 24px; height: 24px; border-radius: 50%;
   background: var(--card); border: 2px solid var(--ink); display: grid; place-items: center;
 }
-.edited-mark svg { width: 12px; height: 12px; }
+.edit-mark svg { width: 13px; height: 13px; }
+.edit-mark.is-edited { background: var(--yellow); }
+.edit-mark.is-edited svg path { fill: var(--yellow); }
 .edit-box { margin-top: 16px; padding-top: 14px; border-top: 3px solid var(--blue-line); }
 .edit-bar, .edit-actions { display: flex; flex-wrap: wrap; gap: 10px; }
 .edit-bar[hidden] { display: none; }

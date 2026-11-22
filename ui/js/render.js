@@ -173,6 +173,7 @@
     const value = day.display ? `, ${day.display}` : '';
     const pts = FINAL.includes(day.status) ? `, +${day.points} points` : '';
     const edited = day.edited ? ', edited by hand' : '';
+    // (the pencil itself is decorative; the Edit button in the detail panel is the accessible control)
     return `${habit.label}, ${fmt.longDay(day.date)}: ${STATUS_LABEL[day.status] || day.status}${value}${pts}${edited}`;
   }
 
@@ -190,9 +191,12 @@
       cell.appendChild(el('span', '', day.display || '—'));
     }
     if (FINAL.includes(status)) cell.appendChild(el('span', 'pts', `+${day.points}`));
-    // The pencil marks a hand edit you can still change (today/yesterday); older edits only say so in the detail panel.
-    if (day.edited && editable) cell.appendChild(iconEl('span', 'edited-mark', 'pencil'));
-    cell.addEventListener('click', () => onSelect(habit.key, day.date));
+    // Every today/yesterday square gets a pencil (tap it to open the edit form). It is filled
+    // yellow when the value was already edited by hand. Older days say so only in the detail panel.
+    if (editable) cell.appendChild(iconEl('span', `edit-mark${day.edited ? ' is-edited' : ''}`, 'pencil'));
+    cell.addEventListener('click', (event) => {
+      onSelect(habit.key, day.date, Boolean(editable && event.target.closest('.edit-mark')));
+    });
     return cell;
   }
 

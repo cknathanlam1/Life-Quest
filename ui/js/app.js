@@ -25,7 +25,7 @@
   /* ---------- Status line ---------- */
   function showStatus(text, isError) {
     const node = $('status');
-    node.textContent = text;
+    $('statusText').textContent = text;
     node.classList.toggle('error', Boolean(isError));
     node.hidden = !text;
   }
@@ -104,9 +104,14 @@
     store.setJSON(key, LockIn.progress.snapshot(ch));
   }
 
-  function select(habit, date) {
+  /** Show a cell in the detail panel; openEdit (from a pencil tap) also opens the edit form. */
+  function select(habit, date, openEdit) {
     selection = { habit, date };
     LockIn.render.detail(current, habit, date);
+    if (openEdit) {
+      const editBtn = document.querySelector('#detail .edit-bar .btn');
+      if (editBtn) editBtn.click();
+    }
     const panel = $('detail');
     const rect = panel.getBoundingClientRect();
     if (rect.top > window.innerHeight - 80 || rect.bottom < 0) {
@@ -127,7 +132,7 @@
   const TOKEN_TEXT = {
     read: {
       title: 'Read token',
-      text: "Paste the dashboard's READ token. It is saved only in this browser (localStorage) and sent only to the Life Quest API.",
+      text: "Paste the dashboard's READ token. It is saved only in this browser (localStorage) and sent only to the Lock-In API.",
       placeholder: 'READ token',
     },
     ingest: {
@@ -211,7 +216,8 @@
       setMenu(false);
       if (action === 'refresh') load();
       if (action === 'change-token') askToken('');
-      if (action === 'copy-setup-link') copySetupLink();
+      if (action === 'copy-setup-link') copySetupLink(false);
+      if (action === 'copy-setup-link-edit') copySetupLink(true);
       if (action === 'forget-edit-token') {
         store.remove(store.KEYS.ingestToken);
         showStatus('Edit token forgotten. The next edit will ask for it again.');
@@ -232,9 +238,11 @@
     const hash = window.location.hash.slice(1);
     if (!hash) return;
     const fragment = new URLSearchParams(hash);
-    if (!fragment.has('token')) return;
+    if (!fragment.has('token') && !fragment.has('ingest')) return;
     const token = (fragment.get('token') || '').trim();
+    const ingest = (fragment.get('ingest') || '').trim();
     fragment.delete('token');
+    fragment.delete('ingest');
     const rest = fragment.toString();
     const cleanUrl = window.location.pathname + window.location.search + (rest ? `#${rest}` : '');
     try {
@@ -242,22 +250,30 @@
     } catch (e) {
       window.location.hash = rest; // file:// pages may refuse replaceState
     }
-    if (token && !saveToken(token)) showStatus('This browser blocked saving the token (private mode?).', true);
+    const ok = (!token || saveToken(token)) && (!ingest || store.set(store.KEYS.ingestToken, ingest));
+    if (!ok) showStatus('This browser blocked saving the token (private mode?).', true);
   }
 
-  function setupLink() {
+  /** withEdit adds the INGEST token so the other device can edit without typing it either. */
+  function setupLink(withEdit) {
     const base = window.location.href.split('#')[0].split('?')[0];
-    return `${base}#token=${encodeURIComponent(readToken())}`;
+    const ingest = withEdit ? store.get(store.KEYS.ingestToken) : '';
+    return `${base}#token=${encodeURIComponent(readToken())}${ingest ? `&ingest=${encodeURIComponent(ingest)}` : ''}`;
   }
 
-  async function copySetupLink() {
+  async function copySetupLink(withEdit) {
     if (!readToken()) { askToken('Save a token first, then copy the setup link.'); return; }
-    const link = setupLink();
+    if (withEdit && !store.get(store.KEYS.ingestToken)) {
+      askIngestToken(() => copySetupLink(true), 'Save the edit token here first, then copy the link again.');
+      return;
+    }
+    const link = setupLink(withEdit);
+    const what = withEdit ? 'both tokens (it can change your data)' : 'the read token';
     try {
       await navigator.clipboard.writeText(link);
-      showStatus('Setup link copied. Open it once on another device; it contains the token, so send it only to yourself.');
+      showStatus(`Setup link copied. Open it once on another device. It contains ${what}, so send it only to yourself.`);
     } catch (e) {
-      window.prompt('Copy this setup link (it contains the token, send it only to yourself):', link);
+      window.prompt(`Copy this setup link. It contains ${what}; send it only to yourself:`, link);
     }
   }
 
@@ -279,6 +295,7 @@
   function start() {
     LockIn.render.setDetailAddOn(LockIn.edit.attach);
     $('rewardClose').addEventListener('click', () => { $('reward').hidden = true; });
+    $('statusClose').addEventListener('click', () => showStatus(''));
     wireTokenDialog();
     wireMenu();
     wireRefresh();

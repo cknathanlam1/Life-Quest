@@ -113,10 +113,17 @@
     }
   }
 
+  /** e.g. "Saved: Laptop, today, 5 min." */
   function doneText(payload) {
-    if (payload.value === 'clear') return 'Edit undone. The sensor value applies again.';
-    if (payload.value === 'missing') return 'Saved: marked as missing.';
-    return 'Saved.';
+    const habit = payload.habit.charAt(0).toUpperCase() + payload.habit.slice(1);
+    const day = payload.date === isoDay(new Date()) ? 'today' : 'yesterday';
+    const what = `${habit}, ${day}`;
+    if (payload.value === 'clear') return `Edit undone: ${what}. The sensor value applies again.`;
+    if (payload.value === 'missing') return `Saved: ${what}, marked as missing.`;
+    if (payload.habit === 'sleep') {
+      return `Saved: ${what}, ${Math.floor(payload.value / 60)} h ${payload.value % 60} min, asleep ${LockIn.fmt.onsetTime(payload.onset)}.`;
+    }
+    return `Saved: ${what}, ${payload.value} min.`;
   }
 
   /* ---------- Form ---------- */

@@ -1,8 +1,4 @@
-# Life Quest UI
-
-The dashboard was renamed from "Lock-In" to "Life Quest" on 2026-11-21. Internal names
-(the `LockIn` JavaScript namespace, `lockin.*` localStorage keys, the `lock-in-dashboard`
-repo and URL) were kept so saved tokens and links keep working.
+# Lock-In UI
 
 A static dashboard page: plain HTML, CSS and JS, no build step, no trackers. It renders the
 state JSON (contract version 1, see the main [README](../README.md#state-schema-version-1)).
@@ -77,13 +73,13 @@ because the page holds no data and no token.
 Tap a square for yesterday or today (only those two; checked against both the data and the device clock), then **Edit**: minutes for exercise, phone and laptop; hours,
 minutes and "fell asleep at" for sleep (a time after noon counts as the evening before). **Mark as
 missing** grays the day out; **Undo edit** removes the edit so the sensor value applies again.
-Edited squares for today and yesterday show a pencil; every edited day says "Edited by hand" in the detail panel.
+Every square for today and yesterday shows a pencil (yellow when already edited); tapping the pencil opens the edit form. Older edited days say "Edited by hand" in the detail panel. Status messages such as "Saved: Laptop, today, marked as missing." have an × to dismiss them.
 
 Saving sends `POST <API_URL>` with a `text/plain` JSON body (`source: "manual"`, see the main README),
 which avoids a CORS preflight. Writes need the **INGEST** token, not the READ token: the page asks
 for it on the first edit and keeps it in `localStorage` under `lockin.ingestToken`, apart from the
 READ token. **Forget edit token** in the menu removes it. The INGEST token can write data, so don't
-save it on a shared device, and it is never part of the setup link.
+save it on a shared device. **Copy setup link + edit token** puts it in the setup link (`#token=…&ingest=…`) so another device can edit without typing it; that link can change your data, so send it only to yourself. Plain **Copy setup link** never includes it.
 
 ## Game feel
 
