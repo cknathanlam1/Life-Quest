@@ -14,10 +14,10 @@
   "character": {
     "name": "Nathan",
     "level": 4,
-    "xp": 984,
+    "xp": 1019,
     "level_xp": 900,
     "next_level_xp": 1600,
-    "xp_to_next": 616,
+    "xp_to_next": 581,
     "hp": 69,
     "hp_max": 100,
     "hp_counts": {
@@ -36,8 +36,12 @@
         "habits": [
           "exercise"
         ],
-        "xp": 188,
-        "week_xp": 47
+        "events": [
+          "other"
+        ],
+        "xp": 192,
+        "week_xp": 51,
+        "calendar_xp": 4
       },
       {
         "key": "VIT",
@@ -45,8 +49,12 @@
         "habits": [
           "sleep"
         ],
-        "xp": 281,
-        "week_xp": 66
+        "events": [
+          "socials"
+        ],
+        "xp": 291,
+        "week_xp": 76,
+        "calendar_xp": 10
       },
       {
         "key": "FOC",
@@ -54,8 +62,12 @@
         "habits": [
           "phone"
         ],
-        "xp": 247,
-        "week_xp": 52
+        "events": [
+          "meetings"
+        ],
+        "xp": 252,
+        "week_xp": 57,
+        "calendar_xp": 5
       },
       {
         "key": "DIS",
@@ -63,8 +75,12 @@
         "habits": [
           "laptop"
         ],
-        "xp": 268,
-        "week_xp": 51
+        "events": [
+          "classes"
+        ],
+        "xp": 284,
+        "week_xp": 67,
+        "calendar_xp": 16
       }
     ]
   },
@@ -468,160 +484,203 @@
     "categories": [
       {
         "key": "classes",
-        "label": "Classes"
+        "label": "Classes",
+        "skill": "DIS",
+        "points_per_hour": 1
       },
       {
         "key": "socials",
-        "label": "Socials"
+        "label": "Socials",
+        "skill": "VIT",
+        "points_per_hour": 1
       },
       {
         "key": "meetings",
-        "label": "Meetings"
+        "label": "Meetings",
+        "skill": "FOC",
+        "points_per_hour": 1
       },
       {
         "key": "other",
-        "label": "Other"
+        "label": "Other",
+        "skill": "STR",
+        "points_per_hour": 1
       }
     ],
     "days": [
       {
         "date": "2026-11-16",
         "busy_hours": 5,
+        "points": 6,
         "classes": {
           "hours": 3.5,
-          "count": 2
+          "count": 2,
+          "points": 4
         },
         "socials": {
           "hours": 0,
-          "count": 0
+          "count": 0,
+          "points": 0
         },
         "meetings": {
           "hours": 1,
-          "count": 1
+          "count": 1,
+          "points": 1
         },
         "other": {
           "hours": 0.5,
-          "count": 1
+          "count": 1,
+          "points": 1
         }
       },
       {
         "date": "2026-11-17",
         "busy_hours": 5.5,
+        "points": 6,
         "classes": {
           "hours": 3,
-          "count": 2
+          "count": 2,
+          "points": 3
         },
         "socials": {
           "hours": 1,
-          "count": 1
+          "count": 1,
+          "points": 1
         },
         "meetings": {
           "hours": 1.5,
-          "count": 2
+          "count": 2,
+          "points": 2
         },
         "other": {
           "hours": 0,
-          "count": 0
+          "count": 0,
+          "points": 0
         }
       },
       {
         "date": "2026-11-18",
         "busy_hours": 5,
+        "points": 6,
         "classes": {
           "hours": 3.5,
-          "count": 2
+          "count": 2,
+          "points": 4
         },
         "socials": {
           "hours": 0,
-          "count": 0
+          "count": 0,
+          "points": 0
         },
         "meetings": {
           "hours": 0.5,
-          "count": 1
+          "count": 1,
+          "points": 1
         },
         "other": {
           "hours": 1,
-          "count": 1
+          "count": 1,
+          "points": 1
         }
       },
       {
         "date": "2026-11-19",
         "busy_hours": 6,
+        "points": 6,
         "classes": {
           "hours": 3,
-          "count": 2
+          "count": 2,
+          "points": 3
         },
         "socials": {
           "hours": 2,
-          "count": 1
+          "count": 1,
+          "points": 2
         },
         "meetings": {
           "hours": 1,
-          "count": 1
+          "count": 1,
+          "points": 1
         },
         "other": {
           "hours": 0,
-          "count": 0
+          "count": 0,
+          "points": 0
         }
       },
       {
         "date": "2026-11-20",
         "busy_hours": 5,
+        "points": 6,
         "classes": {
           "hours": 1.5,
-          "count": 1
+          "count": 1,
+          "points": 2
         },
         "socials": {
           "hours": 3,
-          "count": 1
+          "count": 1,
+          "points": 3
         },
         "meetings": {
           "hours": 0,
-          "count": 0
+          "count": 0,
+          "points": 0
         },
         "other": {
           "hours": 0.5,
-          "count": 1
+          "count": 1,
+          "points": 1
         }
       },
       {
         "date": "2026-11-21",
         "busy_hours": 5,
+        "points": 5,
         "classes": {
           "hours": 0,
-          "count": 0
+          "count": 0,
+          "points": 0
         },
         "socials": {
           "hours": 4,
-          "count": 2
+          "count": 2,
+          "points": 4
         },
         "meetings": {
           "hours": 0,
-          "count": 0
+          "count": 0,
+          "points": 0
         },
         "other": {
           "hours": 1,
-          "count": 1
+          "count": 1,
+          "points": 1
         }
       },
       {
         "date": "2026-11-22",
         "busy_hours": 2,
+        "points": 0,
         "classes": {
           "hours": 0,
-          "count": 0
+          "count": 0,
+          "points": 0
         },
         "socials": {
           "hours": 2,
-          "count": 1
+          "count": 1,
+          "points": 0
         },
         "meetings": {
           "hours": 0,
-          "count": 0
+          "count": 0,
+          "points": 0
         },
         "other": {
           "hours": 0,
-          "count": 0
+          "count": 0,
+          "points": 0
         }
       }
     ]
