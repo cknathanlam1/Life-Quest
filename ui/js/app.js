@@ -127,7 +127,7 @@
   const TOKEN_TEXT = {
     read: {
       title: 'Read token',
-      text: "Paste the dashboard's READ token. It is saved only in this browser (localStorage) and sent only to the Lock-In API.",
+      text: "Paste the dashboard's READ token. It is saved only in this browser (localStorage) and sent only to the Life Quest API.",
       placeholder: 'READ token',
     },
     ingest: {
