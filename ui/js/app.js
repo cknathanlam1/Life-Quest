@@ -4,7 +4,6 @@
 
   const API_URL = 'https://script.google.com/macros/s/AKfycbzm4NyKGCWMC3f2RxUy-4dHwwPFCbBWzmFgZyQyhdus3zln5wpDfTE2HdRkezG-43Hihw/exec';
   const MOCK_URL = '../mock/state.json';
-  const TOKEN_KEY = 'lockin.readToken';
   const STALE_MS = 5 * 60 * 1000; // refetch when the tab comes back after this long
   const SUPPORTED_VERSION = 1;
 
@@ -17,16 +16,11 @@
   let loadedAt = 0;
   let loading = false;
 
-  /* ---------- Token storage (localStorage can throw in private modes) ---------- */
-  function readToken() {
-    try { return window.localStorage.getItem(TOKEN_KEY) || ''; } catch (e) { return ''; }
-  }
-  function saveToken(token) {
-    try { window.localStorage.setItem(TOKEN_KEY, token); return true; } catch (e) { return false; }
-  }
-  function forgetToken() {
-    try { window.localStorage.removeItem(TOKEN_KEY); } catch (e) { /* nothing stored */ }
-  }
+  /* ---------- READ token ---------- */
+  const store = LockIn.store;
+  const readToken = () => store.get(store.KEYS.readToken);
+  const saveToken = (token) => store.set(store.KEYS.readToken, token);
+  const forgetToken = () => store.remove(store.KEYS.readToken);
 
   /* ---------- Status line ---------- */
   function showStatus(text, isError) {
@@ -91,7 +85,7 @@
     current = state;
     const R = LockIn.render;
     R.header(state, source);
-    R.character(state.character);
+    R.character(state);
     R.questGrid(state, select);
     R.events(state);
     const stillValid = selection && state.habits.some((h) => h.key === selection.habit) && state.dates.includes(selection.date);
@@ -99,6 +93,15 @@
     if (selection) R.detail(state, selection.habit, selection.date);
     $('app').hidden = false;
     scrollGridsToToday();
+    showSinceLastVisit(state.character);
+  }
+
+  /** Banner for XP and levels gained since the last visit on this device. */
+  function showSinceLastVisit(ch) {
+    const key = store.KEYS.lastSeen(source);
+    const diff = LockIn.progress.sinceLastVisit(store.getJSON(key), ch);
+    if (diff) LockIn.render.reward(diff); // never hide a banner on a quiet refresh
+    store.setJSON(key, LockIn.progress.snapshot(ch));
   }
 
   function select(habit, date) {
@@ -120,19 +123,48 @@
     });
   }
 
-  /* ---------- Token dialog ---------- */
-  function askToken(errorText) {
-    const dialog = $('tokenDialog');
+  /* ---------- Token dialog (READ token, or INGEST token for edits) ---------- */
+  const TOKEN_TEXT = {
+    read: {
+      title: 'Read token',
+      text: "Paste the dashboard's READ token. It is saved only in this browser (localStorage) and sent only to the Lock-In API.",
+      placeholder: 'READ token',
+    },
+    ingest: {
+      title: 'Edit token',
+      text: 'Editing needs the INGEST token (not the READ token). It is saved only in this browser, separately, and sent only with your edits. Forget it from the menu.',
+      placeholder: 'INGEST token',
+    },
+  };
+  let tokenKind = 'read';
+  let onIngestReady = null; // the save waiting for the INGEST token
+
+  function openTokenDialog(kind, errorText) {
+    tokenKind = kind;
+    const copy = TOKEN_TEXT[kind];
+    $('tokenTitle').textContent = copy.title;
+    $('tokenText').textContent = copy.text;
+    $('tokenInput').placeholder = copy.placeholder;
+    $('tokenInput').value = '';
     const err = $('tokenError');
     err.textContent = errorText || '';
     err.hidden = !errorText;
-    $('tokenInput').value = '';
-    $('tokenCancel').hidden = !readToken() && !current;
+    $('tokenCancel').hidden = kind === 'read' && !readToken() && !current;
+    const dialog = $('tokenDialog');
     if (!dialog.open) dialog.showModal();
+  }
+
+  function askToken(errorText) {
+    openTokenDialog('read', errorText);
     if (!current) {
       showStatus('Waiting for the READ token.');
       $('subtitle').textContent = 'Not connected';
     }
+  }
+
+  function askIngestToken(onReady, errorText) {
+    onIngestReady = onReady;
+    openTokenDialog('ingest', errorText);
   }
 
   function wireTokenDialog() {
@@ -141,15 +173,19 @@
       event.preventDefault();
       const token = $('tokenInput').value.trim();
       if (!token) return;
-      if (!saveToken(token)) {
+      const key = tokenKind === 'ingest' ? store.KEYS.ingestToken : store.KEYS.readToken;
+      if (!store.set(key, token)) {
         $('tokenError').textContent = 'This browser blocked saving the token (private mode?).';
         $('tokenError').hidden = false;
         return;
       }
       dialog.close();
-      load();
+      if (tokenKind === 'read') { load(); return; }
+      const pending = onIngestReady;
+      onIngestReady = null;
+      if (pending) pending();
     });
-    $('tokenCancel').addEventListener('click', () => dialog.close());
+    $('tokenCancel').addEventListener('click', () => { onIngestReady = null; dialog.close(); });
   }
 
   /* ---------- Menu ---------- */
@@ -176,6 +212,10 @@
       if (action === 'refresh') load();
       if (action === 'change-token') askToken('');
       if (action === 'copy-setup-link') copySetupLink();
+      if (action === 'forget-edit-token') {
+        store.remove(store.KEYS.ingestToken);
+        showStatus('Edit token forgotten. The next edit will ask for it again.');
+      }
       if (action === 'forget-token') {
         forgetToken();
         current = null;
@@ -227,7 +267,18 @@
     });
   }
 
+  /** Hooks for the edit module. */
+  LockIn.app = {
+    API_URL,
+    source,
+    askIngestToken,
+    showStatus,
+    reload: () => load(), // resolves when the refetch is rendered
+  };
+
   function start() {
+    LockIn.render.setDetailAddOn(LockIn.edit.attach);
+    $('rewardClose').addEventListener('click', () => { $('reward').hidden = true; });
     wireTokenDialog();
     wireMenu();
     wireRefresh();

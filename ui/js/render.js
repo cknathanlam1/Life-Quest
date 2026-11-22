@@ -17,6 +17,7 @@
     laptop: '<svg viewBox="0 0 20 20"><rect x="4" y="4" width="12" height="8.5" rx="1.5" fill="none" stroke="#4a3226" stroke-width="2.2"/><path d="M2 15.5h16" stroke="#4a3226" stroke-width="2.2" stroke-linecap="round"/></svg>',
     flame: '<svg viewBox="0 0 12 12"><path d="M6 1c.3 2-2.5 3-2.5 5.6A2.5 2.5 0 0 0 6 11a2.6 2.6 0 0 0 2.6-2.7C8.6 6.4 7 5.6 7.2 4 6.2 4.6 6 5.3 6 6c-.7-.6-.4-3 0-5Z" fill="#f0883e" stroke="#4a3226" stroke-width=".9" stroke-linejoin="round"/></svg>',
     check: '<svg viewBox="0 0 16 16"><path d="m3 8.5 3.2 3.2L13 4.5" fill="none" stroke="#4a3226" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>',
+    pencil: '<svg viewBox="0 0 16 16"><path d="M3 13l1-3.5 7-7 2.5 2.5-7 7Z" fill="#fff8ec" stroke="#4a3226" stroke-width="1.6" stroke-linejoin="round"/></svg>',
     cross: '<svg viewBox="0 0 16 16"><path d="m3.5 3.5 9 9m0-9-9 9" fill="none" stroke="#4a3226" stroke-width="2.2" stroke-linecap="round"/></svg>',
   };
 
@@ -48,9 +49,10 @@
   }
 
   /* ---------- Character ---------- */
-  function renderCharacter(ch) {
+  function renderCharacter(state) {
+    const ch = state.character;
     const mood = ch.mood || { key: 'unknown', label: 'Unknown' };
-    $('sprite').replaceChildren(LockIn.sprite.build(mood.key));
+    $('sprite').replaceChildren(LockIn.sprite.build(mood.key, LockIn.progress.lookFor(ch.level)));
     const moodEl = $('mood');
     moodEl.textContent = mood.label;
     moodEl.className = `mood ${mood.key}`;
@@ -96,6 +98,8 @@
     const pct = span > 0 ? fmt.clamp((ch.xp - ch.level_xp) / span, 0, 1) * 100 : 0;
     $('xpValue').textContent = `${ch.xp} · ${ch.xp_to_next} to Lv ${ch.level + 1}`;
     $('xpFill').style.width = `${pct}%`;
+    const next = LockIn.progress.nextUnlock(ch.level);
+    $('unlockLine').textContent = next ? `Lv ${next.level} unlocks: ${next.name}` : 'Every look unlocked';
     const bar = $('xpBar');
     bar.setAttribute('aria-valuenow', Math.round(pct));
     bar.setAttribute('aria-valuemin', 0);
@@ -129,14 +133,15 @@
   }
 
   /* ---------- Quest log ---------- */
-  function habitHead(habit) {
-    const head = el('div', 'row-head');
+  function habitHead(habit, atRisk) {
+    const head = el('div', `row-head${atRisk ? ' at-risk' : ''}`);
     head.appendChild(iconEl('span', `habit-ico ${habit.key}`, habit.key));
     const text = el('div', 'row-text');
     text.appendChild(el('div', 'habit-name', habit.label));
     const meta = el('div', 'habit-meta');
     meta.appendChild(iconEl('span', '', 'flame'));
-    meta.appendChild(el('span', '', `${habit.streak}d · → ${habit.skill}`));
+    meta.appendChild(el('span', '', `${habit.streak}d${atRisk ? '!' : ''} · → ${habit.skill}`));
+    if (atRisk) meta.title = `${habit.streak}-day streak at risk today`;
     text.appendChild(meta);
     head.appendChild(text);
     return head;
@@ -153,7 +158,8 @@
   function cellLabel(habit, day) {
     const value = day.display ? `, ${day.display}` : '';
     const pts = FINAL.includes(day.status) ? `, +${day.points} points` : '';
-    return `${habit.label}, ${fmt.longDay(day.date)}: ${STATUS_LABEL[day.status] || day.status}${value}${pts}`;
+    const edited = day.edited ? ', edited by hand' : '';
+    return `${habit.label}, ${fmt.longDay(day.date)}: ${STATUS_LABEL[day.status] || day.status}${value}${pts}${edited}`;
   }
 
   function habitCell(habit, day, onSelect) {
@@ -170,14 +176,16 @@
       cell.appendChild(el('span', '', day.display || '—'));
     }
     if (FINAL.includes(status)) cell.appendChild(el('span', 'pts', `+${day.points}`));
+    if (day.edited) cell.appendChild(iconEl('span', 'edited-mark', 'pencil'));
     cell.addEventListener('click', () => onSelect(habit.key, day.date));
     return cell;
   }
 
   function renderQuestGrid(state, onSelect) {
     const nodes = columnHeads(state);
+    const atRisk = LockIn.progress.streaksAtRisk(state);
     state.habits.forEach((habit) => {
-      nodes.push(habitHead(habit));
+      nodes.push(habitHead(habit, atRisk.includes(habit)));
       const byDate = new Map(habit.days.map((d) => [d.date, d]));
       state.dates.forEach((date) => {
         const day = byDate.get(date) || { date, status: 'missing', display: '', points: 0, streak: 0, detail: {} };
@@ -185,6 +193,15 @@
       });
     });
     $('questGrid').replaceChildren(...nodes);
+    renderRiskLine(atRisk);
+  }
+
+  function renderRiskLine(atRisk) {
+    const line = $('riskLine');
+    line.hidden = atRisk.length === 0;
+    line.textContent = atRisk.length
+      ? `Streaks on the line today: ${atRisk.map((h) => `${h.label} ${h.streak}d`).join(', ')}. Anything but red keeps them.`
+      : '';
   }
 
   function markSelected(habitKey, date) {
@@ -196,6 +213,9 @@
   }
 
   /* ---------- Detail panel ---------- */
+  let detailAddOn = null; // optional (innerEl, habit, day, state) => void, e.g. the edit form
+  function setDetailAddOn(fn) { detailAddOn = fn; }
+
   function detailSub(habit, day) {
     const detail = day.detail || {};
     const parts = [];
@@ -203,6 +223,7 @@
     if (habit.key === 'exercise' && typeof detail.workouts === 'number' && day.status !== 'pending') {
       parts.push(fmt.plural(detail.workouts, 'workout'));
     }
+    if (day.edited) parts.push('Edited by hand');
     if (day.estimated) parts.push('Estimated: a session had no close');
     if (day.status === 'pending') parts.push('Today, not final yet');
     if (day.status === 'missing') parts.push('No data for this day');
@@ -220,6 +241,7 @@
   function streakText(day) {
     const days = fmt.plural(day.streak, 'day');
     if (day.status === 'red') return `${days} (reset)`;
+    if (day.status === 'pending' && day.streak > 0) return `${days}, at risk today (only red resets it)`;
     if (day.status === 'missing' || day.status === 'pending') return `${days} (kept)`;
     return days;
   }
@@ -245,6 +267,7 @@
     [['Points', pointsText(habit, day), ''], ['Streak', streakText(day), ''], ['Rule', habit.rule, 'rule']]
       .forEach(([k, v, cls]) => { dl.appendChild(el('dt', '', k)); dl.appendChild(el('dd', cls, v)); });
     inner.appendChild(dl);
+    if (detailAddOn) detailAddOn(inner, habit, day, state);
     panel.replaceChildren(inner);
     markSelected(habitKey, date);
   }
@@ -285,7 +308,27 @@
     $('eventsGrid').replaceChildren(...nodes);
   }
 
+  /* ---------- Since last visit ---------- */
+  function renderReward(diff) {
+    const box = $('reward');
+    if (!diff) { box.hidden = true; return; }
+    const parts = diff.skills.map((s) => `${s.key} +${s.delta}`);
+    if (diff.levelUp && diff.xp > 0) parts.unshift(`+${diff.xp} XP`);
+    if (diff.unlocked.length) parts.push(`Unlocked: ${diff.unlocked.join(', ')}`);
+    $('rewardTitle').textContent = diff.levelUp ? `Level up! Lv ${diff.level}` : `+${diff.xp} XP since your last visit`;
+    $('rewardText').textContent = parts.join(' · ');
+    box.classList.toggle('level-up', diff.levelUp);
+    box.hidden = false;
+    const spriteBox = document.querySelector('.sprite-box');
+    spriteBox.classList.remove('celebrate');
+    void spriteBox.offsetWidth; // restart the sparkle animation
+    spriteBox.classList.add('celebrate');
+  }
+
   LockIn.render = {
+    setDetailAddOn,
+    el,
+    reward: renderReward,
     header: renderHeader,
     character: renderCharacter,
     questGrid: renderQuestGrid,

@@ -43,9 +43,19 @@
     thriving: { open: EYES_HAPPY, closed: EYES_CLOSED, mouth: MOUTH_SMILE, extra: BLUSH, colors: {} },
     okay: { open: EYES_OPEN, closed: EYES_CLOSED, mouth: MOUTH_FLAT, extra: BLUSH, colors: {} },
     struggling: { open: EYES_OPEN, closed: EYES_CLOSED, mouth: MOUTH_FROWN, extra: BLUSH.concat(SWEAT), colors: {} },
-    drained: { open: EYES_TIRED, closed: EYES_CLOSED, mouth: MOUTH_FROWN, extra: [], colors: { S: '#ead7c2', H: '#b7a197', L: '#8f7a6c' } },
-    unknown: { open: EYES_OPEN, closed: EYES_CLOSED, mouth: MOUTH_SMALL, extra: [], colors: { S: '#efe0cc', H: '#c9b6aa' } },
+    drained: { open: EYES_TIRED, closed: EYES_CLOSED, mouth: MOUTH_FROWN, extra: [], colors: { S: '#ead7c2', L: '#8f7a6c' } },
+    unknown: { open: EYES_OPEN, closed: EYES_CLOSED, mouth: MOUTH_SMALL, extra: [], colors: { S: '#efe0cc' } },
   };
+
+  // Level looks (see LockIn.progress LOOKS). Star pin sits on the headband; the crown uses the
+  // two spare rows above the head (the body is drawn 2 rows down).
+  const HEAD_TOP = 2;
+  const STAR_PIN = [[4, 4, 'Y'], [3, 5, 'Y'], [4, 5, 'Y'], [5, 5, 'Y']];
+  const CROWN = [
+    [5, 0, 'Y'], [7, 0, 'R'], [8, 0, 'R'], [10, 0, 'Y'],
+    [5, 1, 'Y'], [6, 1, 'Y'], [7, 1, 'Y'], [8, 1, 'Y'], [9, 1, 'Y'], [10, 1, 'Y'],
+  ];
+  const LOOK_COLORS = { Y: '#f4cc4c', R: '#e8735f' };
 
   function rect(x, y, fill) {
     const r = document.createElementNS(SVG_NS, 'rect');
@@ -72,18 +82,26 @@
     return pixels;
   }
 
-  /** Returns an <svg> of the character for a mood key (falls back to "unknown"). */
-  function build(moodKey) {
+  /**
+   * Returns an <svg> of the character. moodKey picks the face (falls back to "unknown");
+   * look ({ band, star, crown, name } from LockIn.progress.lookFor) picks the level cosmetics.
+   */
+  function build(moodKey, look) {
     const mood = MOODS[moodKey] || MOODS.unknown;
-    const colors = Object.assign({}, BASE_COLORS, mood.colors);
+    const gear = look || {};
+    const colors = Object.assign({}, BASE_COLORS, LOOK_COLORS, mood.colors, gear.band ? { H: gear.band } : {});
     const svg = document.createElementNS(SVG_NS, 'svg');
-    svg.setAttribute('viewBox', `0 0 ${W} ${BODY.length}`);
+    svg.setAttribute('viewBox', `0 0 ${W} ${BODY.length + HEAD_TOP}`);
     svg.setAttribute('role', 'img');
-    svg.setAttribute('aria-label', `Character, mood: ${moodKey || 'unknown'}`);
-    svg.appendChild(group('', bodyPixels(), colors));
-    svg.appendChild(group('', mood.extra.concat(mood.mouth), colors));
-    svg.appendChild(group('eyes-open', mood.open, colors));
-    svg.appendChild(group('eyes-closed', mood.closed, colors));
+    svg.setAttribute('aria-label', `Character, mood: ${moodKey || 'unknown'}${gear.name ? `, wearing ${gear.name}` : ''}`);
+    const body = document.createElementNS(SVG_NS, 'g');
+    body.setAttribute('transform', `translate(0 ${HEAD_TOP})`);
+    body.appendChild(group('', bodyPixels().concat(gear.star ? STAR_PIN : []), colors));
+    body.appendChild(group('', mood.extra.concat(mood.mouth), colors));
+    body.appendChild(group('eyes-open', mood.open, colors));
+    body.appendChild(group('eyes-closed', mood.closed, colors));
+    svg.appendChild(body);
+    if (gear.crown) svg.appendChild(group('', CROWN, colors));
     return svg;
   }
 

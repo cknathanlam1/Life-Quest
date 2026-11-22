@@ -30,11 +30,21 @@
           <button type="button" data-action="copy-setup-link" data-live-only>Copy setup link</button>
           <button type="button" data-action="change-token" data-live-only>Change token</button>
           <button type="button" data-action="forget-token" data-live-only>Forget token</button>
+          <button type="button" data-action="forget-edit-token" data-live-only>Forget edit token</button>
         </div>
       </div>
     </header>
 
     <p class="status" id="status" role="status" hidden></p>
+
+    <div class="reward" id="reward" role="status" hidden>
+      <span class="reward-star" aria-hidden="true">★</span>
+      <div class="reward-text">
+        <p class="pixel reward-title" id="rewardTitle"></p>
+        <p id="rewardText"></p>
+      </div>
+      <button type="button" class="reward-close" id="rewardClose" aria-label="Dismiss">×</button>
+    </div>
 
     <main id="app" hidden>
       <section class="card char-card" aria-label="Character">
@@ -58,6 +68,7 @@
             <span id="xpValue"></span>
           </div>
           <div class="xp-bar" role="meter" aria-label="XP toward next level" id="xpBar"><div class="xp-fill" id="xpFill"></div></div>
+          <p class="hint unlock" id="unlockLine"></p>
         </div>
         <div class="skills" id="skills"></div>
       </section>
@@ -74,6 +85,7 @@
               <li><i class="sw pending"></i>Pending</li>
             </ul>
           </div>
+          <p class="risk-line" id="riskLine" hidden></p>
           <div class="scroll-x" id="questScroll"><div class="grid quest-grid" id="questGrid"></div></div>
           <p class="hint foot">Tap any square for details. Points = base (green 10, yellow 5) × streak bonus (+10% per day, max ×2). Gray days earn nothing and never break a streak.</p>
         </section>
@@ -104,8 +116,8 @@
 
   <dialog class="token-dialog" id="tokenDialog">
     <form method="dialog" id="tokenForm">
-      <h2 class="pixel">Read token</h2>
-      <p>Paste the dashboard's <b>READ</b> token. It is saved only in this browser (localStorage) and sent only to the Lock-In API.</p>
+      <h2 class="pixel" id="tokenTitle">Read token</h2>
+      <p id="tokenText"></p>
       <p class="token-error" id="tokenError" hidden></p>
       <input type="password" id="tokenInput" autocomplete="off" autocapitalize="off" spellcheck="false" placeholder="READ token" required>
       <div class="dialog-actions">
@@ -116,8 +128,11 @@
   </dialog>
 
   <script src="js/format.js"></script>
+  <script src="js/store.js"></script>
+  <script src="js/progress.js"></script>
   <script src="js/sprite.js"></script>
   <script src="js/render.js"></script>
+  <script src="js/edit.js"></script>
   <script src="js/app.js"></script>
 </body>
 </html>

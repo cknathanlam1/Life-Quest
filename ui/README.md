@@ -42,6 +42,14 @@ chats. A `localhost` link only works on the same computer; for the iPhone, use t
 
 ## Host it
 
+**Live at <https://cknathanlam1.github.io/lock-in-dashboard/>** (redirects to `/ui/`), served by
+GitHub Pages from the public repo `cknathanlam1/lock-in-dashboard`, branch `main`. That repo holds
+only this `ui/` folder, `mock/state.json`, a root redirect, `robots.txt` (disallow all) and
+`.nojekyll`; the rest of this project is not published.
+
+To redeploy after changing the UI: copy `ui/` and `mock/state.json` into a clone of that repo
+(same paths), commit, and push to `main`. Pages rebuilds in about a minute.
+
 Any static host works. GitHub Pages: publish the repo (or just `ui/`; mock mode then needs
 `mock/state.json` copied next to it and `MOCK_URL` in `js/app.js` updated). The page has
 `<meta name="robots" content="noindex">`, but a public Pages URL can still be found, which is fine
@@ -57,6 +65,27 @@ because the page holds no data and no token.
 - If the API says `unauthorized`, the page drops the saved token and asks again.
 - The READ token can only read. If it leaks, run `rotateTokens` in Apps Script and paste the new one.
 - Anyone who can unlock the browser can read the dashboard. Use **Forget token** on shared devices.
+
+## Editing yesterday and today
+
+Tap a square for yesterday or today, then **Edit**: minutes for exercise, phone and laptop; hours,
+minutes and "fell asleep at" for sleep (a time after noon counts as the evening before). **Mark as
+missing** grays the day out; **Undo edit** removes the edit so the sensor value applies again.
+Edited squares show a pencil and "Edited by hand".
+
+Saving sends `POST <API_URL>` with a `text/plain` JSON body (`source: "manual"`, see the main README),
+which avoids a CORS preflight. Writes need the **INGEST** token, not the READ token: the page asks
+for it on the first edit and keeps it in `localStorage` under `lockin.ingestToken`, apart from the
+READ token. **Forget edit token** in the menu removes it. The INGEST token can write data, so don't
+save it on a shared device, and it is never part of the setup link.
+
+## Game feel
+
+- **Since last visit:** a banner lists XP, skill gains, level-ups and new looks since this device
+  last opened the page (`lockin.lastSeen.<live|mock>` in `localStorage`).
+- **Streak at risk:** habits with a running streak and an unscored today are listed; their flame pulses.
+- **Looks by level:** headband red → blue (Lv 2) → star pin (Lv 3) → purple (Lv 4) → gold (Lv 5),
+  crown at Lv 7. The XP bar names the next unlock.
 
 ## Notes
 

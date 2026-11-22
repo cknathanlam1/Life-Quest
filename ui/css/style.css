@@ -287,6 +287,68 @@ h1, h2, p { margin: 0; }
 .shop-slots { grid-column: 1 / -1; display: flex; gap: 10px; justify-content: flex-end; }
 .shop-slots i { width: 52px; height: 52px; border: 3px dashed var(--pending-line); border-radius: 12px; background: var(--card); opacity: .7; }
 
+/* ---------- Game feel: streak risk, unlocks, rewards ---------- */
+.unlock { margin-top: 6px; }
+.risk-line {
+  display: flex; align-items: center; gap: 6px; margin: -4px 0 10px; padding: 7px 10px;
+  background: #fff1d6; border: 2.5px solid var(--yellow-deep); border-radius: 10px; font-size: 13.5px;
+}
+.risk-line[hidden] { display: none; }
+.risk-line::before { content: "🔥"; }
+.row-head.at-risk .habit-meta { color: #c2552f; font-weight: 800; }
+.row-head.at-risk .habit-meta svg { animation: flame-pulse 1.2s ease-in-out infinite; transform-origin: 50% 90%; }
+@keyframes flame-pulse { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.35); } }
+
+.reward {
+  display: flex; align-items: center; gap: 12px; margin-bottom: 14px; padding: 10px 12px;
+  background: var(--card); border: 3px solid var(--ink); border-radius: 14px; box-shadow: 0 4px 0 var(--yellow-deep);
+}
+.reward[hidden] { display: none; }
+.reward.level-up { background: var(--yellow); }
+.reward-star { font-size: 26px; color: var(--yellow-deep); line-height: 1; }
+.reward.level-up .reward-star { color: var(--ink); }
+.reward-text { flex: 1; min-width: 0; font-size: 14px; }
+.reward-title { font-size: 18px; }
+.reward-close {
+  flex: none; width: 32px; height: 32px; border: 2.5px solid var(--ink); border-radius: 8px; background: var(--card);
+  font-size: 20px; line-height: 1; cursor: pointer;
+}
+.sprite-box.celebrate::before, .sprite-box.celebrate::after {
+  content: "✦"; position: absolute; z-index: 1; color: #fff7c2; font-size: 22px;
+  text-shadow: 0 0 2px var(--ink); animation: sparkle 1.3s ease-out 2 both;
+}
+.sprite-box.celebrate::before { left: 14%; top: 12%; }
+.sprite-box.celebrate::after { right: 14%; top: 22%; animation-delay: .35s; }
+@keyframes sparkle {
+  0% { opacity: 0; transform: scale(.3) rotate(0); }
+  40% { opacity: 1; transform: scale(1.2) rotate(40deg); }
+  100% { opacity: 0; transform: scale(.6) rotate(90deg); }
+}
+
+/* ---------- Manual edits ---------- */
+.cell { position: relative; }
+.edited-mark {
+  position: absolute; top: -7px; right: -7px; width: 20px; height: 20px; border-radius: 50%;
+  background: var(--card); border: 2px solid var(--ink); display: grid; place-items: center;
+}
+.edited-mark svg { width: 12px; height: 12px; }
+.edit-box { margin-top: 16px; padding-top: 14px; border-top: 3px solid var(--blue-line); }
+.edit-bar, .edit-actions { display: flex; flex-wrap: wrap; gap: 10px; }
+.edit-bar[hidden] { display: none; }
+.detail .btn { color: var(--ink); }
+.detail .btn:disabled { opacity: .6; cursor: default; }
+.edit-form { display: grid; gap: 10px; }
+.edit-row { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.edit-field { display: grid; gap: 4px; color: var(--gold); font-size: 14px; }
+.edit-field input {
+  width: 100%; font: 700 17px var(--sans); color: var(--ink); background: #fff;
+  border: 3px solid var(--ink); border-radius: 10px; padding: 8px 10px; min-height: 44px;
+}
+.edit-hint { color: var(--blue-text); font-size: 13px; }
+.edit-msg { font-size: 14px; color: #fff; background: rgba(255, 255, 255, .12); border-radius: 8px; padding: 6px 8px; }
+.edit-msg.error { background: #fde3dc; color: #8f2f1f; }
+.edit-msg[hidden] { display: none; }
+
 /* ---------- Token dialog ---------- */
 .token-dialog {
   border: 3px solid var(--ink); border-radius: 18px; background: var(--card); color: var(--ink);
@@ -331,7 +393,9 @@ h1, h2, p { margin: 0; }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .sprite, .sprite .eyes-open, .sprite .eyes-closed { animation: none; }
+  .sprite, .sprite .eyes-open, .sprite .eyes-closed,
+  .row-head.at-risk .habit-meta svg { animation: none; }
+  .sprite-box.celebrate::before, .sprite-box.celebrate::after { animation: none; opacity: 0; }
   .sprite { transform: none; }
   html { scroll-behavior: auto; }
 }

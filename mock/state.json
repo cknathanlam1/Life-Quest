@@ -76,7 +76,7 @@
       "unit": "min",
       "streak": 3,
       "week_points": 47,
-      "rule": "Green: 45+ min of exercise. Yellow: 20 to 44 min. Red: under 20 min.",
+      "rule": "Green: 45+ min of workouts. Yellow: 20 to 44 min. Red: under 20 min.",
       "days": [
         {
           "date": "2026-11-16",
@@ -86,6 +86,7 @@
           "points": 11,
           "streak": 1,
           "estimated": false,
+          "edited": false,
           "detail": {
             "workouts": 1
           }
@@ -98,6 +99,7 @@
           "points": 6,
           "streak": 2,
           "estimated": false,
+          "edited": false,
           "detail": {
             "workouts": 1
           }
@@ -110,6 +112,7 @@
           "points": 0,
           "streak": 0,
           "estimated": false,
+          "edited": false,
           "detail": {
             "workouts": 0
           }
@@ -122,6 +125,7 @@
           "points": 11,
           "streak": 1,
           "estimated": false,
+          "edited": false,
           "detail": {
             "workouts": 1
           }
@@ -134,6 +138,7 @@
           "points": 12,
           "streak": 2,
           "estimated": false,
+          "edited": false,
           "detail": {
             "workouts": 1
           }
@@ -146,6 +151,7 @@
           "points": 7,
           "streak": 3,
           "estimated": false,
+          "edited": false,
           "detail": {
             "workouts": 1
           }
@@ -158,6 +164,7 @@
           "points": 0,
           "streak": 3,
           "estimated": false,
+          "edited": false,
           "detail": {
             "workouts": 0
           }
@@ -181,6 +188,7 @@
           "points": 13,
           "streak": 3,
           "estimated": false,
+          "edited": false,
           "detail": {
             "asleep_min": 444,
             "onset": "23:30",
@@ -195,6 +203,7 @@
           "points": 14,
           "streak": 4,
           "estimated": false,
+          "edited": false,
           "detail": {
             "asleep_min": 432,
             "onset": "23:45",
@@ -209,6 +218,7 @@
           "points": 8,
           "streak": 5,
           "estimated": false,
+          "edited": false,
           "detail": {
             "asleep_min": 396,
             "onset": "00:20",
@@ -223,6 +233,7 @@
           "points": 0,
           "streak": 0,
           "estimated": false,
+          "edited": false,
           "detail": {
             "asleep_min": 342,
             "onset": "01:10",
@@ -237,6 +248,7 @@
           "points": 6,
           "streak": 1,
           "estimated": false,
+          "edited": false,
           "detail": {
             "asleep_min": 408,
             "onset": "00:30",
@@ -251,6 +263,7 @@
           "points": 12,
           "streak": 2,
           "estimated": false,
+          "edited": false,
           "detail": {
             "asleep_min": 456,
             "onset": "23:10",
@@ -265,6 +278,7 @@
           "points": 13,
           "streak": 3,
           "estimated": false,
+          "edited": false,
           "detail": {
             "asleep_min": 438,
             "onset": "23:40",
@@ -290,6 +304,7 @@
           "points": 8,
           "streak": 5,
           "estimated": false,
+          "edited": false,
           "detail": {}
         },
         {
@@ -300,6 +315,7 @@
           "points": 0,
           "streak": 0,
           "estimated": false,
+          "edited": false,
           "detail": {}
         },
         {
@@ -310,6 +326,7 @@
           "points": 11,
           "streak": 1,
           "estimated": false,
+          "edited": false,
           "detail": {}
         },
         {
@@ -320,6 +337,7 @@
           "points": 12,
           "streak": 2,
           "estimated": false,
+          "edited": false,
           "detail": {}
         },
         {
@@ -330,6 +348,7 @@
           "points": 7,
           "streak": 3,
           "estimated": true,
+          "edited": false,
           "detail": {}
         },
         {
@@ -340,6 +359,7 @@
           "points": 14,
           "streak": 4,
           "estimated": false,
+          "edited": false,
           "detail": {}
         },
         {
@@ -350,6 +370,7 @@
           "points": 0,
           "streak": 4,
           "estimated": false,
+          "edited": false,
           "detail": {}
         }
       ]
@@ -371,6 +392,7 @@
           "points": 0,
           "streak": 4,
           "estimated": false,
+          "edited": false,
           "detail": {}
         },
         {
@@ -381,6 +403,7 @@
           "points": 15,
           "streak": 5,
           "estimated": false,
+          "edited": false,
           "detail": {}
         },
         {
@@ -391,6 +414,7 @@
           "points": 16,
           "streak": 6,
           "estimated": false,
+          "edited": false,
           "detail": {}
         },
         {
@@ -401,6 +425,7 @@
           "points": 9,
           "streak": 7,
           "estimated": false,
+          "edited": false,
           "detail": {}
         },
         {
@@ -411,6 +436,7 @@
           "points": 0,
           "streak": 0,
           "estimated": false,
+          "edited": false,
           "detail": {}
         },
         {
@@ -421,6 +447,7 @@
           "points": 11,
           "streak": 1,
           "estimated": false,
+          "edited": false,
           "detail": {}
         },
         {
@@ -431,6 +458,7 @@
           "points": 0,
           "streak": 1,
           "estimated": false,
+          "edited": false,
           "detail": {}
         }
       ]
