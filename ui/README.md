@@ -47,8 +47,10 @@ GitHub Pages from the public repo `cknathanlam1/lock-in-dashboard`, branch `main
 only this `ui/` folder, `mock/state.json`, a root redirect, `robots.txt` (disallow all) and
 `.nojekyll`; the rest of this project is not published.
 
-To redeploy after changing the UI: copy `ui/` and `mock/state.json` into a clone of that repo
-(same paths), commit, and push to `main`. Pages rebuilds in about a minute.
+To redeploy after changing the UI: commit, then run `sh ui/publish.sh <path to a lock-in-dashboard clone>`
+from the repo root. It copies `ui/` and `mock/state.json`, replaces `?v=dev` on the CSS and JS links with
+the commit hash (GitHub Pages lets browsers cache files for 10 minutes, so this stops a new page
+loading old scripts), commits and pushes. Pages rebuilds in about a minute.
 
 Any static host works. GitHub Pages: publish the repo (or just `ui/`; mock mode then needs
 `mock/state.json` copied next to it and `MOCK_URL` in `js/app.js` updated). The page has
