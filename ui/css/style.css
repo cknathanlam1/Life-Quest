@@ -1,4 +1,4 @@
-/* Lock-In dashboard. Mobile first; wider layouts from 720px and 1000px. */
+/* Life Quest dashboard. Mobile first; wider layouts from 720px and 1000px. */
 :root {
   --bg: #f6e9d2;
   --dot: #ead6b4;
@@ -226,6 +226,9 @@ h1, h2, p { margin: 0; }
 .cell.yellow { background: var(--yellow); }
 .cell.red { background: var(--red); }
 .cell.missing { background: var(--gray); color: var(--ink-soft); }
+/* Before the Config start_date: real colors, faded, and "no XP" instead of points. */
+.cell.unscored { opacity: .62; }
+.cell.unscored .pts { font-style: italic; }
 .cell.pending { background: var(--pending-bg); border: 3px dashed var(--pending-line); box-shadow: none; color: var(--ink-soft); }
 .cell:focus-visible { outline: 3px solid var(--blue); outline-offset: 2px; }
 .cell.selected { outline: 3.5px solid var(--blue); outline-offset: 3px; }

@@ -1,4 +1,8 @@
-# Lock-In UI
+# Life Quest UI
+
+The dashboard was renamed from "Lock-In" to "Life Quest" on 2026-11-21. Internal names
+(the `LockIn` JavaScript namespace, `lockin.*` localStorage keys, the `lock-in-dashboard`
+repo and URL) were kept so saved tokens and links keep working.
 
 A static dashboard page: plain HTML, CSS and JS, no build step, no trackers. It renders the
 state JSON (contract version 1, see the main [README](../README.md#state-schema-version-1)).

@@ -171,7 +171,8 @@
 
   function cellLabel(habit, day) {
     const value = day.display ? `, ${day.display}` : '';
-    const pts = FINAL.includes(day.status) ? `, +${day.points} points` : '';
+    const pts = day.scored === false ? ', before scoring started, no points'
+      : FINAL.includes(day.status) ? `, +${day.points} points` : '';
     const edited = day.edited ? ', edited by hand' : '';
     // (the pencil itself is decorative; the Edit button in the detail panel is the accessible control)
     return `${habit.label}, ${fmt.longDay(day.date)}: ${STATUS_LABEL[day.status] || day.status}${value}${pts}${edited}`;
@@ -179,7 +180,8 @@
 
   function habitCell(habit, day, onSelect, editable) {
     const status = STATUS_LABEL[day.status] ? day.status : 'missing';
-    const cell = el('button', `cell ${status}`);
+    const unscored = day.scored === false; // before Config start_date: shown, but earns nothing
+    const cell = el('button', `cell ${status}${unscored ? ' unscored' : ''}`);
     cell.type = 'button';
     cell.dataset.habit = habit.key;
     cell.dataset.date = day.date;
@@ -190,7 +192,7 @@
     } else {
       cell.appendChild(el('span', '', day.display || '—'));
     }
-    if (FINAL.includes(status)) cell.appendChild(el('span', 'pts', `+${day.points}`));
+    if (FINAL.includes(status)) cell.appendChild(el('span', 'pts', unscored ? 'no XP' : `+${day.points}`));
     // Every today/yesterday square gets a pencil (tap it to open the edit form). It is filled
     // yellow when the value was already edited by hand. Older days say so only in the detail panel.
     if (editable) cell.appendChild(iconEl('span', `edit-mark${day.edited ? ' is-edited' : ''}`, 'pencil'));
@@ -242,6 +244,7 @@
     if (habit.key === 'exercise' && typeof detail.workouts === 'number' && day.status !== 'pending') {
       parts.push(fmt.plural(detail.workouts, 'workout'));
     }
+    if (day.scored === false) parts.push('Before scoring started');
     if (day.edited) parts.push('Edited by hand');
     if (day.estimated) parts.push('Estimated: a session had no close');
     if (day.status === 'pending') parts.push('Today, not final yet');
@@ -251,6 +254,7 @@
 
   function pointsText(habit, day) {
     const base = `${day.points} ${habit.skill}`;
+    if (day.scored === false) return `${base}. Days before scoring started earn nothing`;
     if (day.status === 'red') return `${base}. Red earns nothing`;
     if (day.status === 'pending') return `${base}. Scored when the day is final`;
     if (day.status === 'missing') return `${base}. No data earns nothing`;

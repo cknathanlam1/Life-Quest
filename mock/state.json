@@ -103,6 +103,7 @@
           "streak": 1,
           "estimated": false,
           "edited": false,
+          "scored": true,
           "detail": {
             "workouts": 1
           }
@@ -116,6 +117,7 @@
           "streak": 2,
           "estimated": false,
           "edited": false,
+          "scored": true,
           "detail": {
             "workouts": 1
           }
@@ -129,6 +131,7 @@
           "streak": 0,
           "estimated": false,
           "edited": false,
+          "scored": true,
           "detail": {
             "workouts": 0
           }
@@ -142,6 +145,7 @@
           "streak": 1,
           "estimated": false,
           "edited": false,
+          "scored": true,
           "detail": {
             "workouts": 1
           }
@@ -155,6 +159,7 @@
           "streak": 2,
           "estimated": false,
           "edited": false,
+          "scored": true,
           "detail": {
             "workouts": 1
           }
@@ -168,6 +173,7 @@
           "streak": 3,
           "estimated": false,
           "edited": false,
+          "scored": true,
           "detail": {
             "workouts": 1
           }
@@ -181,6 +187,7 @@
           "streak": 3,
           "estimated": false,
           "edited": false,
+          "scored": true,
           "detail": {
             "workouts": 0
           }
@@ -205,6 +212,7 @@
           "streak": 3,
           "estimated": false,
           "edited": false,
+          "scored": true,
           "detail": {
             "asleep_min": 444,
             "onset": "23:30",
@@ -220,6 +228,7 @@
           "streak": 4,
           "estimated": false,
           "edited": false,
+          "scored": true,
           "detail": {
             "asleep_min": 432,
             "onset": "23:45",
@@ -235,6 +244,7 @@
           "streak": 5,
           "estimated": false,
           "edited": false,
+          "scored": true,
           "detail": {
             "asleep_min": 396,
             "onset": "00:20",
@@ -250,6 +260,7 @@
           "streak": 0,
           "estimated": false,
           "edited": false,
+          "scored": true,
           "detail": {
             "asleep_min": 342,
             "onset": "01:10",
@@ -265,6 +276,7 @@
           "streak": 1,
           "estimated": false,
           "edited": false,
+          "scored": true,
           "detail": {
             "asleep_min": 408,
             "onset": "00:30",
@@ -280,6 +292,7 @@
           "streak": 2,
           "estimated": false,
           "edited": false,
+          "scored": true,
           "detail": {
             "asleep_min": 456,
             "onset": "23:10",
@@ -295,6 +308,7 @@
           "streak": 3,
           "estimated": false,
           "edited": false,
+          "scored": true,
           "detail": {
             "asleep_min": 438,
             "onset": "23:40",
@@ -321,6 +335,7 @@
           "streak": 5,
           "estimated": false,
           "edited": false,
+          "scored": true,
           "detail": {}
         },
         {
@@ -332,6 +347,7 @@
           "streak": 0,
           "estimated": false,
           "edited": false,
+          "scored": true,
           "detail": {}
         },
         {
@@ -343,6 +359,7 @@
           "streak": 1,
           "estimated": false,
           "edited": false,
+          "scored": true,
           "detail": {}
         },
         {
@@ -354,6 +371,7 @@
           "streak": 2,
           "estimated": false,
           "edited": false,
+          "scored": true,
           "detail": {}
         },
         {
@@ -365,6 +383,7 @@
           "streak": 3,
           "estimated": true,
           "edited": false,
+          "scored": true,
           "detail": {}
         },
         {
@@ -376,6 +395,7 @@
           "streak": 4,
           "estimated": false,
           "edited": false,
+          "scored": true,
           "detail": {}
         },
         {
@@ -387,6 +407,7 @@
           "streak": 4,
           "estimated": false,
           "edited": false,
+          "scored": true,
           "detail": {}
         }
       ]
@@ -409,6 +430,7 @@
           "streak": 4,
           "estimated": false,
           "edited": false,
+          "scored": true,
           "detail": {}
         },
         {
@@ -420,6 +442,7 @@
           "streak": 5,
           "estimated": false,
           "edited": false,
+          "scored": true,
           "detail": {}
         },
         {
@@ -431,6 +454,7 @@
           "streak": 6,
           "estimated": false,
           "edited": false,
+          "scored": true,
           "detail": {}
         },
         {
@@ -442,6 +466,7 @@
           "streak": 7,
           "estimated": false,
           "edited": false,
+          "scored": true,
           "detail": {}
         },
         {
@@ -453,6 +478,7 @@
           "streak": 0,
           "estimated": false,
           "edited": false,
+          "scored": true,
           "detail": {}
         },
         {
@@ -464,6 +490,7 @@
           "streak": 1,
           "estimated": false,
           "edited": false,
+          "scored": true,
           "detail": {}
         },
         {
@@ -475,6 +502,7 @@
           "streak": 1,
           "estimated": false,
           "edited": false,
+          "scored": true,
           "detail": {}
         }
       ]
